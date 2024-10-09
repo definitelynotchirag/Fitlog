@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Set {
+  set_id     String   @id @unique @default(uuid())
+  set_weight Float
+  set_reps   Int
+  workout    Workout  @relation(fields: [workout_id], references: [workout_id])
+  workout_id String
+  date       DateTime
+}
+
+model Workout {
+  workout_id   String   @id @unique() @default(uuid())
+  workout_name String
+  routine      Routine  @relation(fields: [routine_id], references: [routine_id])
+  routine_id   String
+  Set          Set[]
+  date         DateTime
+}
+
+model Routine {
+  routine_id   String    @id @unique @default(uuid())
+  routine_name String
+  user         User      @relation(fields: [user_id], references: [user_id])
+  user_id      String
+  Workout      Workout[]
+}
+
+model User {
+  user_id  String    @id @unique
+  email    String
+  password String    @default("")
+  Routine  Routine[]
+}

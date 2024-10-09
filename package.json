@@ -1,0 +1,40 @@
+{
+  "name": "fitlog",
+  "version": "1.0.0",
+  "description": "This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@clerk/nextjs": "^5.7.1",
+    "@clerk/themes": "^2.1.35",
+    "@langchain/core": "^0.3.7",
+    "@langchain/google-genai": "^0.1.0",
+    "@langchain/groq": "^0.1.2",
+    "@langchain/mistralai": "^0.1.1",
+    "@mantine/core": "^7.13.2",
+    "@mantine/hooks": "^7.13.2",
+    "@prisma/client": "^5.20.0",
+    "axios": "^1.7.7",
+    "langchain": "^0.3.2",
+    "next": "^14.2.14",
+    "prisma": "^5.20.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hot-toast": "^2.4.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.11",
+    "postcss": "^8.4.47",
+    "postcss-preset-mantine": "^1.17.0",
+    "postcss-simple-vars": "^7.0.1",
+    "tailwindcss": "^3.4.13",
+    "typescript": "5.6.2"
+  }
+}
