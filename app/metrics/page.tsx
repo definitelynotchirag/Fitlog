@@ -197,7 +197,7 @@ const Dashboard = () => {
             </button>
           )}
 
-          <Link className={`${buttonStyle} text-center`} href="/">
+          <Link className={`${buttonStyle} text-center`} href="/chat">
             Chat
           </Link>
         </div>
