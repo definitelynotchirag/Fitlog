@@ -13,8 +13,8 @@ import {
 } from "@clerk/nextjs";
 
 const theme = createTheme({
-  fontFamily: 'Open Sans, sans-serif',
-  primaryColor: 'cyan',
+  fontFamily: "Open Sans, sans-serif",
+  primaryColor: "cyan",
 });
 
 const geistSans = localFont({
@@ -45,7 +45,7 @@ export default function RootLayout({
       >
         <ClerkProvider
           appearance={{
-            baseTheme: [neobrutalism],
+            baseTheme: [dark],
             variables: {
               // colorPrimary: "blue",
               // colorBackground: "rgba(20, 69, 47, 1)",
@@ -62,12 +62,18 @@ export default function RootLayout({
             },
           }}
         >
-          <main className="mx-auto bg-slate-600">
+          <main className="mx-auto bg-slate-900">
             <div className="flex items-start justify-center min-h-screen ">
-              <div className="mt-20">
-                <MantineProvider defaultColorScheme="dark" theme={theme} forceColorScheme="dark">
-                  {children}
-                </MantineProvider>
+              <div className="px-10 py-10 mt-24 mw-1 rounded-3xl bg-black shadow-3xl ">
+                <div className="mt-4">
+                  <MantineProvider
+                    defaultColorScheme="dark"
+                    theme={theme}
+                    forceColorScheme="dark"
+                  >
+                    {children}
+                  </MantineProvider>
+                </div>
               </div>
             </div>
           </main>

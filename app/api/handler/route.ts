@@ -1,20 +1,9 @@
-import axios from "axios"; // For making API requests
+import axios from "axios";
 import { processTextWithLangChain } from "@/langchain/processor";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
 
 const getRoutineIdByName = async (userId: any, routineName: any) => {
-  // try {
-  //   const response = await axios.post("./routine/getIdByName", {
-  //     userId,
-  //     routineName,
-  //   });
-  //   console.log(response.data.routineId);
-  //   return response.data.routineId;
-  // } catch (error) {
-  //   console.error("Error fetching routine ID:", error);
-  //   throw new Error("Failed to retrieve routine ID");
-  // }
   console.log(routineName, userId);
   try {
     const routine = await prisma.routine.findFirst({
@@ -27,17 +16,15 @@ const getRoutineIdByName = async (userId: any, routineName: any) => {
     if (routine) {
       return routine.routine_id;
     } else {
-      NextResponse.json({ error: "Routine not found" });
-      return 0;
+      throw new Error("Routine not found");
     }
   } catch (error) {
     console.error("Error fetching routine ID:", error);
-    NextResponse.json({ error: "Internal server error" });
-    return 0;
+    throw new Error("Failed to retrieve routine ID");
   }
 };
 
-const getWorkoutIdbyName = async (
+const getWorkoutIdByName = async (
   userId: any,
   workoutName: any,
   routineId: any,
@@ -53,29 +40,37 @@ const getWorkoutIdbyName = async (
     if (workout) {
       return workout.workout_id;
     } else {
-      NextResponse.json({ error: "Workout not found" });
-      return 0;
+      throw new Error("Workout not found");
     }
   } catch (error) {
-    console.error("Error fetching routine ID:", error);
-    NextResponse.json({ error: "Internal server error" });
-    return 0;
+    console.error("Error fetching workout ID:", error);
+    throw new Error("Failed to retrieve workout ID");
   }
 };
 
-export async function POST(req: NextRequest, res: NextResponse) {
-  const reqBody = await req.json();
-  const { prompt, user } = reqBody;
-  console.log(user);
-  const parsedData = await processTextWithLangChain(prompt, user);
-  // console.log(parsedData);
-  const { action, workoutName, sets, routineName, date } = parsedData; // Expect routineName now
-
-  const routineId = await getRoutineIdByName(user, routineName);
+export async function POST(req: NextRequest) {
   try {
-    if (action === "log_workout") {
-      console.log(routineId);
-      try {
+    const reqBody = await req.json();
+    const { prompt, user } = reqBody;
+    const parsedData = await processTextWithLangChain(prompt, user);
+    const { action, workoutName, sets, routineName, date } = parsedData; // Expect routineName now
+
+    // if (!routineId) {
+    //   return NextResponse.json({
+    //     success: false,
+    //     message: "Routine not found.",
+    //   });
+    // }
+
+    switch (action) {
+      case "log_workout":
+      case "log_workouts":
+      case "record_workout":
+      case "record_workouts":
+      case "save_workout":
+      case "save_workouts": {
+        const routineId = await getRoutineIdByName(user, routineName);
+
         let workout = await prisma.workout.findFirst({
           where: {
             routine_id: routineId,
@@ -83,20 +78,19 @@ export async function POST(req: NextRequest, res: NextResponse) {
             date: new Date(date),
           },
         });
+
         if (!workout) {
           workout = await prisma.workout.create({
             data: {
               workout_name: workoutName[0],
               date: new Date(date),
               routine: {
-                connect: { routine_id: routineId }, // If you want to connect to an existing routine, adjust this accordingly
+                connect: { routine_id: routineId },
               },
             },
           });
         }
-        console.log(workout);
 
-        // Create sets associated with the workout
         const setEntries = sets.map((set: { weight: any; reps: any }) => ({
           set_weight: parseFloat(set.weight),
           set_reps: parseInt(set.reps),
@@ -104,17 +98,23 @@ export async function POST(req: NextRequest, res: NextResponse) {
           date: new Date(date),
         }));
 
-        await prisma.set.createMany({
-          data: setEntries,
-        });
+        await prisma.set.createMany({ data: setEntries });
 
-        return NextResponse.json({ success: true, workout });
-      } catch (error) {
-        console.error("Error logging workout:", error);
-        return NextResponse.json({ error: "Error logging workout" });
+        return NextResponse.json({
+          success: true,
+          message: `Workout ${workoutName[0]} has been successfully logged.`,
+          workout,
+        });
       }
-    } else if (action === "add_workout") {
-      try {
+
+      case "add_workout":
+      case "add_workouts":
+      case "create_workout":
+      case "create_workouts":
+      case "new_workout":
+      case "new_workouts": {
+        const routineId = await getRoutineIdByName(user, routineName);
+
         let workout = await prisma.workout.findFirst({
           where: {
             routine_id: routineId,
@@ -122,103 +122,134 @@ export async function POST(req: NextRequest, res: NextResponse) {
             date: new Date(date),
           },
         });
+
         if (!workout) {
           workout = await prisma.workout.create({
             data: {
               workout_name: workoutName[0],
               date: new Date(date),
               routine: {
-                connect: { routine_id: routineId }, // If you want to connect to an existing routine, adjust this accordingly
+                connect: { routine_id: routineId },
               },
             },
           });
         }
+
         const setEntries = sets.map((set: { weight: any; reps: any }) => ({
           set_weight: parseFloat(set.weight),
           set_reps: parseInt(set.reps),
-          workout_id: workoutName,
+          workout_id: workout.workout_id,
           date: new Date(),
         }));
 
-        await prisma.set.createMany({
-          data: setEntries,
-        });
+        await prisma.set.createMany({ data: setEntries });
 
-        return NextResponse.json({ success: true });
-      } catch (error) {
-        console.error("Error adding sets:", error);
-        return NextResponse.json({ error: "Error adding sets" });
+        return NextResponse.json({
+          success: true,
+          message: `Workout ${workoutName[0]} has been successfully added to routine ${routineName}.`,
+          workout,
+        });
       }
-    } else if (action == "create_routine") {
-      // Call create routine route
-      try {
-        // Create a new routine associated with the user
+
+      case "create_routine":
+      case "create_routines":
+      case "add_routine":
+      case "add_routines":
+      case "new_routine":
+      case "new_routines": {
         const newRoutine = await prisma.routine.create({
           data: {
             routine_name: routineName,
             user: {
-              connect: { user_id: user }, // Connect the routine to the existing user
+              connect: { user_id: user },
             },
           },
         });
-        return NextResponse.json({ success: true, routine: newRoutine });
-      } catch (error) {
-        console.error("Error creating routine:");
-        return NextResponse.json({ error: "Error creating routine" });
+
+        return NextResponse.json({
+          success: true,
+          message: `Routine ${routineName} has been successfully created.`,
+          routine: newRoutine,
+        });
       }
-    } else if (action == "delete_routine") {
-      try {
+
+      case "delete_routine":
+      case "delete_routines":
+      case "remove_routine":
+      case "remove_routines":
+      case "erase_routine":
+      case "erase_routines": {
+        const routineId = await getRoutineIdByName(user, routineName);
         const routine = await prisma.routine.delete({
-          where: {
-            routine_id: routineId,
-          },
+          where: { routine_id: routineId },
         });
-        return NextResponse.json({ success: true, routine: routine });
-      } catch (error) {
-        console.error("Error deleting routine:", error);
-        return NextResponse.json({ error: "Error deleting routine" });
+
+        return NextResponse.json({
+          success: true,
+          message: `Routine ${routineName} has been successfully deleted.`,
+          routine,
+        });
       }
-    } else if (action == "delete_workout") {
-      try {
-        const workoutId = await getWorkoutIdbyName(
+
+      case "delete_workout":
+      case "delete_workouts":
+      case "remove_workout":
+      case "remove_workouts":
+      case "erase_workout":
+      case "erase_workouts": {
+        const routineId = await getRoutineIdByName(user, routineName);
+        const workoutId = await getWorkoutIdByName(
           user,
           workoutName,
           routineId,
         );
+
         const workout = await prisma.workout.delete({
-          where: {
-            routine_id: routineId,
-            workout_id: workoutId,
-          },
+          where: { workout_id: workoutId },
         });
-        return NextResponse.json({ success: true, workout: workout });
-      } catch (error) {
-        console.error("Error deleting workout:", error);
-        return NextResponse.json({ error: "Error deleting workout" });
+
+        return NextResponse.json({
+          success: true,
+          message: `Workout ${workoutName} has been successfully deleted from routine ${routineName}.`,
+          workout,
+        });
       }
-    } else if (action == "delete_set") {
-      try {
-        const workoutId = await getWorkoutIdbyName(
+
+      case "delete_set":
+      case "delete_sets":
+      case "remove_set":
+      case "remove_sets":
+      case "erase_set":
+      case "erase_sets": {
+        const routineId = await getRoutineIdByName(user, routineName);
+        const workoutId = await getWorkoutIdByName(
           user,
           workoutName,
           routineId,
         );
+
         const set = await prisma.set.deleteMany({
-          where: {
-            workout_id: workoutId,
-          },
+          where: { workout_id: workoutId },
         });
-        return NextResponse.json({ success: true, set: set });
-      } catch (error) {
-        console.error("Error deleting set:", error);
-        return NextResponse.json({ error: "Error deleting set" });
+
+        return NextResponse.json({
+          success: true,
+          message: `Sets for workout ${workoutName} have been successfully deleted.`,
+          set,
+        });
       }
-    } else {
-      console.log("error in Langchain");
-      return NextResponse.json({ error: "Error in Langchain" });
+
+      default:
+        return NextResponse.json({
+          success: false,
+          message: "Unknown action provided.",
+        });
     }
   } catch (error) {
-    console.error("Error calling the route:", error);
-    return NextResponse.json({ error: "Failed to process the workout." });
+    console.error("Error processing request:", error);
+    return NextResponse.json({
+      success: false,
+      message: "An error occurred while processing the request.",
+    });
   }
 }
