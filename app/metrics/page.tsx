@@ -42,7 +42,17 @@ const Dashboard = () => {
   }, []);
 
   // Routine List Component
-  const RoutineList = ({ routines, selectRoutine }) => (
+  interface Routine {
+    routine_id: string;
+    routine_name: string;
+  }
+
+  interface RoutineListProps {
+    routines: Routine[];
+    selectRoutine: (routine: Routine) => void;
+  }
+
+  const RoutineList: React.FC<RoutineListProps> = ({ routines, selectRoutine }) => (
     <div>
       <h2 className={subtitleStyle}>Your Routines</h2>
       {routines.length ? (
@@ -62,7 +72,18 @@ const Dashboard = () => {
   );
 
   // Workout List Component
-  const WorkoutList = ({ workouts, selectWorkout }) => (
+  interface Workout {
+    workout_id: string;
+    workout_name: string;
+    date: string;
+  }
+
+  interface WorkoutListProps {
+    workouts: Workout[];
+    selectWorkout: (workout: Workout) => void;
+  }
+
+  const WorkoutList: React.FC<WorkoutListProps> = ({ workouts, selectWorkout }) => (
     <div>
       <h2 className={subtitleStyle}>Workouts</h2>
       {workouts.length ? (
@@ -83,7 +104,16 @@ const Dashboard = () => {
   );
 
   // Set List Component
-  const SetList = ({ sets }) => (
+  interface Set {
+    set_reps: number;
+    set_weight: number;
+  }
+
+  interface SetListProps {
+    sets: Set[];
+  }
+
+  const SetList: React.FC<SetListProps> = ({ sets }) => (
     <div>
       <h2 className={subtitleStyle}>Sets</h2>
       {sets.length ? (
@@ -109,7 +139,7 @@ const Dashboard = () => {
       });
   }, []);
 
-  const selectRoutine = (routine) => {
+  const selectRoutine = (routine:any) => {
     const routineId = routine.routine_id;
     setSelectedRoutine(routine);
     setSelectedWorkout(null); // Reset workout and sets
@@ -122,7 +152,7 @@ const Dashboard = () => {
       });
   };
 
-  const selectWorkout = (workout) => {
+  const selectWorkout = (workout:any) => {
     const workoutId = workout.workout_id;
     setSelectedWorkout(workout);
     axios
