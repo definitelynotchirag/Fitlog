@@ -2,19 +2,74 @@ import axios from "axios";
 import { processTextWithLangChain } from "@/langchain/processor";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
+import Fuse from "fuse.js";
 
+// const getRoutineIdByName = async (userId: any, routineName: any) => {
+//   console.log(routineName, userId);
+//   try {
+//     const routine = await prisma.routine.findFirst({
+//       where: {
+//         user_id: userId,
+//         routine_name: routineName,
+//       },
+//     });
+
+//     if (routine) {
+//       return routine.routine_id;
+//     } else {
+//       throw new Error("Routine not found");
+//     }
+//   } catch (error) {
+//     console.error("Error fetching routine ID:", error);
+//     throw new Error("Failed to retrieve routine ID");
+//   }
+// };
+
+// const getWorkoutIdByName = async (
+//   userId: any,
+//   workoutName: any,
+//   routineId: any,
+// ) => {
+//   try {
+//     const workout = await prisma.workout.findFirst({
+//       where: {
+//         routine_id: routineId,
+//         workout_name: workoutName,
+//       },
+//     });
+
+//     if (workout) {
+//       return workout.workout_id;
+//     } else {
+//       throw new Error("Workout not found");
+//     }
+//   } catch (error) {
+//     console.error("Error fetching workout ID:", error);
+//     throw new Error("Failed to retrieve workout ID");
+//   }
+// };
+//
 const getRoutineIdByName = async (userId: any, routineName: any) => {
   console.log(routineName, userId);
   try {
-    const routine = await prisma.routine.findFirst({
+    // Fetch all routines for the user
+    const routines = await prisma.routine.findMany({
       where: {
         user_id: userId,
-        routine_name: routineName,
       },
     });
 
-    if (routine) {
-      return routine.routine_id;
+    // Set up Fuse.js for fuzzy searching on routine names
+    const fuse = new Fuse(routines, {
+      keys: ["routine_name"], // Search based on routine_name
+      threshold: 0.3, // Adjust threshold for fuzzy matching tolerance
+    });
+
+    // Perform fuzzy search for the routine name
+    const result = fuse.search(routineName);
+
+    if (result.length > 0) {
+      return result[0].item.routine_id; // Return the routine_id of the best match
     } else {
       throw new Error("Routine not found");
     }
@@ -30,15 +85,26 @@ const getWorkoutIdByName = async (
   routineId: any,
 ) => {
   try {
-    const workout = await prisma.workout.findFirst({
+    // Fetch all workouts for the routine
+    const workouts = await prisma.workout.findMany({
       where: {
         routine_id: routineId,
-        workout_name: workoutName,
       },
     });
+    console.log(workouts);
+    // console.log(workoutName);
+    // Set up Fuse.js for fuzzy searching on workout names
+    const fuse = new Fuse(workouts, {
+      keys: ["workout_name"], // Search based on workout_name
+      threshold: 0.3, // Adjust threshold for fuzzy matching tolerance
+    });
 
-    if (workout) {
-      return workout.workout_id;
+    // Perform fuzzy search for the workout name
+    const result = fuse.search(workoutName[0]);
+    console.log(result);
+
+    if (result.length > 0) {
+      return result[0].item.workout_id; // Return the workout_id of the best match
     } else {
       throw new Error("Workout not found");
     }

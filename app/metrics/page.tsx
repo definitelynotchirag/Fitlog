@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import { UserButton } from "@clerk/nextjs";
 
 // Tailwind styles for UI customization
 const containerStyle =
@@ -52,7 +53,10 @@ const Dashboard = () => {
     selectRoutine: (routine: Routine) => void;
   }
 
-  const RoutineList: React.FC<RoutineListProps> = ({ routines, selectRoutine }) => (
+  const RoutineList: React.FC<RoutineListProps> = ({
+    routines,
+    selectRoutine,
+  }) => (
     <div>
       <h2 className={subtitleStyle}>Your Routines</h2>
       {routines.length ? (
@@ -83,7 +87,10 @@ const Dashboard = () => {
     selectWorkout: (workout: Workout) => void;
   }
 
-  const WorkoutList: React.FC<WorkoutListProps> = ({ workouts, selectWorkout }) => (
+  const WorkoutList: React.FC<WorkoutListProps> = ({
+    workouts,
+    selectWorkout,
+  }) => (
     <div>
       <h2 className={subtitleStyle}>Workouts</h2>
       {workouts.length ? (
@@ -139,7 +146,7 @@ const Dashboard = () => {
       });
   }, []);
 
-  const selectRoutine = (routine:any) => {
+  const selectRoutine = (routine: any) => {
     const routineId = routine.routine_id;
     setSelectedRoutine(routine);
     setSelectedWorkout(null); // Reset workout and sets
@@ -152,7 +159,7 @@ const Dashboard = () => {
       });
   };
 
-  const selectWorkout = (workout:any) => {
+  const selectWorkout = (workout: any) => {
     const workoutId = workout.workout_id;
     setSelectedWorkout(workout);
     axios
@@ -167,7 +174,17 @@ const Dashboard = () => {
   return (
     <div className={containerStyle}>
       <div className={boxStyle}>
-        <h1 className={titleStyle}>Dashboard</h1>
+        <div className="flex">
+          {/* <h1 className="text-3xl font-bold text-blue-500 text-center mb-5">
+              Fitlog
+            </h1> */}
+          <h1 className={titleStyle}>Dashboard</h1>
+
+          <div className="ml-auto">
+            <UserButton />
+          </div>
+        </div>
+        {/* <h1 className={titleStyle}>Dashboard</h1> */}
         <div className={contentStyle}>
           {!selectedRoutine ? (
             <RoutineList routines={routines} selectRoutine={selectRoutine} />

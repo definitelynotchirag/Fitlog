@@ -40,9 +40,16 @@ model Routine {
   Workout      Workout[]
 }
 
+model UserChatHistory {
+  user     User     @relation(fields: [userId], references: [user_id])
+  userId   String   @id
+  messages String[]
+}
+
 model User {
-  user_id  String    @id @unique
-  email    String
-  password String    @default("")
-  Routine  Routine[]
+  user_id         String            @id @unique
+  email           String
+  password        String            @default("")
+  Routine         Routine[]
+  UserChatHistory UserChatHistory[]
 }
