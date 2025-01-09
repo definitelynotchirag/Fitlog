@@ -64,11 +64,11 @@ The user will give you workout details, like exercises they did, sets, weights, 
 I need you to extract the following details from the user's input:
 - action: What the user wants to do (log_workout, create_routine,delete_routine, add_workout, create_workout, delete_workout, delete_set)
 - workoutName: The name of the exercise(s). In the form of Array.
-- sets: The number of sets the user performed in the form of Array of set object with 'reps' and 'weight' (in kg) properties. Number of elements in array equal to number of sets.
-- routineName: The name of the routine (if applicable).
-- date: If the user mentioned a specific date, use it. Otherwise, default to today's date.
+- sets: The number of sets date, use it. Otherwise, default to today's date.
 
-Recent conversation history:
+Recent conversation history: the user performed in the form of Array of set object with 'reps' and 'weight' (in kg) properties. Number of elements in array equal to number of sets.
+- routineName: The name of the routine (if applicable).
+- date: If the user mentioned a specific
 {history}
 
 User ID: {userId}

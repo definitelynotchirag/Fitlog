@@ -61,7 +61,7 @@ export default function ChatBox() {
     if (messages.length === 0) {
       const aiMessage = {
         id: 0,
-        text: "Hello, I am Fitlog. How can I help you today?",
+        text: "Hello, I am Fitlog. How can I help you today? Example logging: 'create routine leg day', 'i did 3 sets of squats with 10 reps of 50kg'",
         isUser: false,
       };
       setMessages([aiMessage]);
