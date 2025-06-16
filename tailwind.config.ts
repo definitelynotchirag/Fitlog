@@ -12,6 +12,10 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        'bricolage-grotesque': ['var(--font-bricolage-grotesque)'],
+        'jost': ['var(--font-jost)'],
+      },
     },
   },
   plugins: [],

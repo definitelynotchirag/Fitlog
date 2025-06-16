@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Bricolage_Grotesque, Jost } from "next/font/google";
 import "./globals.css";
 import "@mantine/core/styles.css";
 import { dark, neobrutalism } from "@clerk/themes";
@@ -12,8 +13,20 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 
+const bricolageGrotesque = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-bricolage-grotesque",
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
+});
+
+const jost = Jost({
+  subsets: ["latin"],
+  variable: "--font-jost",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
+
 const theme = createTheme({
-  fontFamily: "Open Sans, sans-serif",
+  fontFamily: "var(--font-jost), sans-serif",
   primaryColor: "cyan",
 });
 
@@ -41,7 +54,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${bricolageGrotesque.variable} ${jost.variable} antialiased`}
       >
         <ClerkProvider
           appearance={{
@@ -63,9 +76,9 @@ export default function RootLayout({
           }}
         >
           <main className="mx-auto bg-slate-900">
-            <div className="flex items-start justify-center min-h-screen ">
-              <div className="px-10 py-10 mt-24 mw-1 rounded-3xl bg-black shadow-3xl ">
-                <div className="mt-4">
+            {/* <div className="flex items-start justify-center min-h-screen ">
+              <div className="px-10 py-10 mt-24 mw-1 rounded-3xl bg-black shadow-3xl "> */}
+                {/* <div className="mt-4"> */}
                   <MantineProvider
                     defaultColorScheme="dark"
                     theme={theme}
@@ -73,9 +86,9 @@ export default function RootLayout({
                   >
                     {children}
                   </MantineProvider>
-                </div>
-              </div>
-            </div>
+                {/* </div> */}
+              {/* </div>
+            </div> */}
           </main>
         </ClerkProvider>
       </body>
