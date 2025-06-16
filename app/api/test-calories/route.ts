@@ -74,7 +74,7 @@ export async function GET(req: NextRequest) {
                 },
             },
         });
-    } catch (error) {
+    } catch (error:any) {
         console.error("Error in test calorie API:", error);
         return NextResponse.json({
             success: false,
