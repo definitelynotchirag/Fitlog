@@ -17,7 +17,6 @@ import {
     Star,
     TrendingUp,
     Trophy,
-    Users,
     Zap,
 } from "lucide-react";
 
@@ -26,13 +25,20 @@ import {
 const Home = () => {
     const [prompt, setPrompt] = useState("");
     const [user, setUser] = useState("");
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const adduser = async () => {
         try {
             const response = await axios.post("/api/user/createuser");
-            console.log(response.data);
-            setUser(response.data.data.user_id);
+            // If user_id exists, consider user as logged in
+            if (response.data?.data?.user_id) {
+                setUser(response.data.data.user_id);
+                setIsLoggedIn(true);
+            } else {
+                setIsLoggedIn(false);
+            }
         } catch (error: any) {
+            setIsLoggedIn(false);
             toast.error("");
         }
     };
@@ -67,7 +73,7 @@ const Home = () => {
                         <span className="text-2xl font-bold text-blue-400">Fitlog</span>
                     </div>
                     <Link
-                        href="/chat"
+                        href={isLoggedIn ? "/chat" : "/login"}
                         className="group px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-all duration-300 shadow-lg font-medium flex items-center space-x-2"
                     >
                         <span>Start Chatting</span>
@@ -98,7 +104,7 @@ const Home = () => {
 
                         <div className="flex flex-col sm:flex-row gap-4 mb-8">
                             <Link
-                                href="/chat"
+                                href={isLoggedIn ? "/chat" : "/login"}
                                 className="group px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl transition-all duration-300 shadow-2xl font-semibold text-lg flex items-center justify-center space-x-3"
                             >
                                 <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
@@ -268,7 +274,7 @@ const Home = () => {
                         Join the beta and help us build the most intuitive fitness tracker ever created
                     </p>
                     <Link
-                        href="/chat"
+                        href={isLoggedIn ? "/chat" : "/login"}
                         className="inline-flex items-center space-x-3 px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl transition-all duration-300 shadow-2xl font-bold text-xl group"
                     >
                         <MessageCircle className="w-7 h-7 group-hover:scale-110 transition-transform" />
