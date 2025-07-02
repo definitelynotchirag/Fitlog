@@ -1,13 +1,36 @@
-'use client'
-import { SignIn } from '@clerk/nextjs'
-import React from 'react'
+"use client";
+import { SignIn } from "@clerk/nextjs";
 
-const login = () => {
-  return (
-    <div>
-      <SignIn routing='hash' signUpUrl='/signup'/>
-    </div>
-  )
-}
+const Login = () => {
+    return (
+        <div className="min-h-screen flex items-center justify-center">
+            <SignIn
+                appearance={{
+                    elements: {
+                        card: "bg-transparent shadow-none border-none",
+                        formButtonPrimary:
+                            "bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 rounded-lg transition-all",
+                        headerTitle: "text-white text-xl font-semibold",
+                        headerSubtitle: "text-slate-300 text-sm",
+                        socialButtonsBlockButton: "bg-slate-800 text-white hover:bg-slate-700",
+                        dividerText: "text-slate-400",
+                        formFieldInput: "bg-slate-800 text-white border-slate-600 focus:border-indigo-500",
+                        formFieldLabel: "text-slate-300",
+                        footerActionText: "text-slate-300",
+                        footerActionLink: "text-indigo-300 hover:text-indigo-400 underline",
+                    },
+                    variables: {
+                        colorPrimary: "#6366f1",
+                        colorBackground: "transparent",
+                        colorText: "#fff",
+                        fontFamily: "Jost, sans-serif",
+                    },
+                }}
+                routing="hash"
+                signUpUrl="/signup"
+            />
+        </div>
+    );
+};
 
-export default login
+export default Login;

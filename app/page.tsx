@@ -218,7 +218,7 @@ const Home = () => {
                     ))}
                 </div>
             </section>
-            {/* Early Adopter Benefits */}
+            {/* Early Adopter Benefits
             <section className="relative z-10 max-w-6xl mx-auto px-6 py-20">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
@@ -231,7 +231,7 @@ const Home = () => {
 
                 <div className="grid md:grid-cols-3 gap-8">
                     <div className="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 rounded-2xl p-6 text-center">
-                        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <div className="w-16 h-16 bg-purple-700  rounded-2xl flex items-center justify-center mx-auto mb-4">
                             <Star className="w-8 h-8 text-white" />
                         </div>
                         <h3 className="text-xl font-bold text-white mb-3">Early Access</h3>
@@ -257,7 +257,7 @@ const Home = () => {
                         <div className="text-sm text-purple-400 font-medium">→ Lifetime access guarantee</div>
                     </div>
                 </div>
-            </section>
+            </section> */}
             {/* Final CTA */}
             <section className="relative z-10 max-w-4xl mx-auto px-6 py-20">
                 <div className="bg-slate-800/60 backdrop-blur-lg border border-slate-700/50 rounded-3xl p-12 text-center">
@@ -291,7 +291,7 @@ const Home = () => {
                         <p className="text-gray-400 text-sm text-center md:text-right">
                             © 2024 Fitlog. The future of fitness tracking starts here.
                             <br />
-                            <span className="text-blue-400">Built with ❤️ for early adopters</span>
+                            <span className="text-blue-400">Built with ❤️ for Chirag</span>
                         </p>
                     </div>
                 </div>
