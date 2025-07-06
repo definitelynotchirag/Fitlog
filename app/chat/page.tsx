@@ -513,6 +513,12 @@ I can help you manage your workouts, track calories, and answer any fitness ques
                                         alignItems: "center",
                                     }}
                                     autoFocus
+                                    onKeyDown={e => {
+                                        if (e.key === "Enter" && !e.shiftKey) {
+                                            e.preventDefault();
+                                            sendMessage();
+                                        }
+                                    }}
                                 />
                             </div>
                             <Button

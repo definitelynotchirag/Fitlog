@@ -7,18 +7,7 @@ import axios from "axios";
 import Link from "next/link";
 import toast from "react-hot-toast";
 
-import {
-    ArrowRight,
-    BarChart3,
-    Brain,
-    Calendar,
-    Dumbbell,
-    MessageCircle,
-    Star,
-    TrendingUp,
-    Trophy,
-    Zap,
-} from "lucide-react";
+import { ArrowRight, BarChart3, Brain, Calendar, Dumbbell, MessageCircle, TrendingUp, Zap } from "lucide-react";
 
 // import { processTextWithLangChain } from "@/langchain/processor";
 
@@ -82,35 +71,35 @@ const Home = () => {
                 </div>
             </nav>
             {/* Hero Section */}
-            <section className="relative z-10 max-w-7xl mx-auto px-6 py-12">
+            <section className="relative z-10 max-w-7xl mx-auto px-6 py-12 mb-40">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <div className="inline-flex items-center space-x-2 bg-blue-500/20 backdrop-blur-sm border border-blue-500/30 rounded-full px-4 py-2 mb-8">
+                    <div className="mt-16 lg:mt-32">
+                        {/* <div className="inline-flex items-center space-x-2 bg-blue-500/20 backdrop-blur-sm border border-blue-500/30 rounded-full px-4 py-2 mb-8">
                             <Star className="w-4 h-4 text-blue-400 animate-pulse" />
                             <span className="text-sm text-blue-200">🚀 Beta Launch</span>
-                        </div>
+                        </div> */}
 
-                        <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
+                        <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-4 lg:mb-6 leading-tight">
                             <span className="text-white">Your</span> <span className="text-blue-400">Personal</span>
                             <br />
                             <span className="text-white">Fitness</span> <span className="text-blue-400">Coach</span>
                         </h1>
 
-                        <p className="text-xl text-gray-300 mb-8 max-w-lg leading-relaxed">
+                        <p className="text-lg md:text-xl text-gray-300 mb-6 lg:mb-8 max-w-lg leading-relaxed">
                             Be among the first to experience AI-powered fitness tracking. Just tell Fitlog what you did
                             today, and our revolutionary AI understands your language and tracks everything
                             effortlessly.
                         </p>
 
-                        <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                        <div className="flex flex-col sm:flex-row gap-3 lg:gap-4 mb-6 lg:mb-8">
                             <Link
                                 href={isLoggedIn ? "/chat" : "/login"}
-                                className="group px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl transition-all duration-300 shadow-2xl font-semibold text-lg flex items-center justify-center space-x-3"
+                                className="group px-6 lg:px-8 py-3 lg:py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl lg:rounded-2xl transition-all duration-300 shadow-xl lg:shadow-2xl font-semibold text-base lg:text-lg flex items-center justify-center space-x-2 lg:space-x-3"
                             >
-                                <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                                <MessageCircle className="w-5 h-5 lg:w-6 lg:h-6 group-hover:scale-110 transition-transform" />
                                 <span>Try It Now - It's Free</span>
                             </Link>
-                            <div className="flex items-center space-x-4 text-gray-400 justify-center sm:justify-start">
+                            {/* <div className="flex items-center space-x-4 text-gray-400 justify-center sm:justify-start">
                                 <div className="flex items-center space-x-2">
                                     <Zap className="w-5 h-5 text-blue-400" />
                                     <span className="text-sm">Just Launched</span>
@@ -119,35 +108,25 @@ const Home = () => {
                                     <Trophy className="w-5 h-5 text-green-400" />
                                     <span className="text-sm">100% Free</span>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 
-                    <div className="relative">
-                        <div className="relative bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 rounded-3xl p-8 shadow-2xl">
-                            <div className="absolute -top-4 -right-4 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                                <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
-                            </div>
-                            <img
-                                src="/hero.png"
-                                alt="Fitlog Chat Interface"
-                                className="w-full h-auto rounded-2xl shadow-lg"
-                            />
-                            <div className="absolute -bottom-6 -left-6 bg-blue-600 rounded-2xl p-4 shadow-xl">
-                                <div className="flex items-center space-x-2">
-                                    <Trophy className="w-6 h-6 text-white" />
-                                    <div>
-                                        <div className="text-white font-bold">Streak: 12 days</div>
-                                        <div className="text-blue-200 text-sm">Keep it up!</div>
-                                    </div>
-                                </div>
+                    <div className="hidden lg:block perspective-near mt-24 translate-x-24 md:absolute md:-right-[15vw] md:bottom-16 md:left-1/2 md:top-32 md:mt-0 md:translate-x-0">
+                        <div className="relative h-[480px] md:h-[600px] before:absolute before:-inset-x-8 before:bottom-7 before:top-0 before:skew-x-6 before:rounded-2xl before:border before:border-slate-700/30 before:bg-slate-800/50">
+                            <div className="bg-slate-800 rounded-xl shadow-lg relative h-full -translate-y-16 skew-x-6 overflow-hidden border border-slate-700/50 ring-1 ring-slate-700/30">
+                                <img
+                                    src="/hero.png"
+                                    alt="Fitlog Chat Interface"
+                                    className="object-top-left w-full h-full object-contain bg-slate-900"
+                                />
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
             {/* Social Proof */}
-            <section className="relative z-10 max-w-7xl mx-auto px-6 py-12">
+            {/* <section className=" z-10 max-w-7xl mx-auto px-6 py-12">
                 <div className="text-center mb-12">
                     <p className="text-gray-400 mb-8">Built for the modern fitness enthusiast</p>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center opacity-60">
@@ -157,19 +136,19 @@ const Home = () => {
                         <div className="text-2xl font-bold text-white">Free Forever</div>
                     </div>
                 </div>
-            </section>
+            </section> */}
             {/* Features with Real Benefits */}
-            <section className="relative z-10 max-w-7xl mx-auto px-6 py-20">
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+            <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-20">
+                <div className="text-center mb-10 lg:mb-16">
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 lg:mb-6 text-white">
                         Why You'll <span className="text-blue-400">Love</span> Fitlog
                     </h2>
-                    <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+                    <p className="text-base md:text-lg text-gray-300 max-w-2xl mx-auto">
                         Experience the future of fitness tracking with AI that actually understands you
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-8">
+                <div className="grid md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                     {[
                         {
                             icon: Brain,
@@ -212,14 +191,16 @@ const Home = () => {
                     ].map((feature, index) => (
                         <div
                             key={index}
-                            className="group relative bg-slate-800/40 backdrop-blur-lg border border-slate-700/50 rounded-2xl p-8 hover:bg-slate-800/60 transition-all duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10"
+                            className="group relative bg-slate-800/40 backdrop-blur-lg border border-slate-700/50 rounded-xl lg:rounded-2xl p-6 lg:p-8 hover:bg-slate-800/60 transition-all duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10"
                         >
-                            <div className="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                <feature.icon className="w-7 h-7 text-white" />
+                            <div className="w-12 h-12 lg:w-14 lg:h-14 bg-blue-600 rounded-xl lg:rounded-2xl flex items-center justify-center mb-4 lg:mb-6 group-hover:scale-110 transition-transform">
+                                <feature.icon className="w-6 h-6 lg:w-7 lg:h-7 text-white" />
                             </div>
-                            <h3 className="text-xl font-bold mb-4 text-white">{feature.title}</h3>
-                            <p className="text-gray-300 mb-4 leading-relaxed">{feature.description}</p>
-                            <div className="text-sm text-blue-400 font-medium">→ {feature.benefit}</div>
+                            <h3 className="text-lg lg:text-xl font-bold mb-3 lg:mb-4 text-white">{feature.title}</h3>
+                            <p className="text-gray-300 text-sm lg:text-base mb-3 lg:mb-4 leading-relaxed">
+                                {feature.description}
+                            </p>
+                            <div className="text-xs lg:text-sm text-blue-400 font-medium">→ {feature.benefit}</div>
                         </div>
                     ))}
                 </div>
@@ -265,23 +246,23 @@ const Home = () => {
                 </div>
             </section> */}
             {/* Final CTA */}
-            <section className="relative z-10 max-w-4xl mx-auto px-6 py-20">
-                <div className="bg-slate-800/60 backdrop-blur-lg border border-slate-700/50 rounded-3xl p-12 text-center">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+            <section className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 py-12 lg:py-20">
+                <div className="bg-slate-800/60 backdrop-blur-lg border border-slate-700/50 rounded-2xl lg:rounded-3xl p-8 lg:p-12 text-center">
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 lg:mb-6 text-white">
                         Ready to Be a <span className="text-blue-400">Pioneer</span>?
                     </h2>
-                    <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                    <p className="text-lg md:text-xl text-gray-300 mb-6 lg:mb-8 max-w-2xl mx-auto">
                         Join the beta and help us build the most intuitive fitness tracker ever created
                     </p>
                     <Link
                         href={isLoggedIn ? "/chat" : "/login"}
-                        className="inline-flex items-center space-x-3 px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl transition-all duration-300 shadow-2xl font-bold text-xl group"
+                        className="inline-flex items-center space-x-2 lg:space-x-3 px-6 lg:px-10 py-3 lg:py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl lg:rounded-2xl transition-all duration-300 shadow-xl lg:shadow-2xl font-bold text-lg lg:text-xl group"
                     >
-                        <MessageCircle className="w-7 h-7 group-hover:scale-110 transition-transform" />
+                        <MessageCircle className="w-6 h-6 lg:w-7 lg:h-7 group-hover:scale-110 transition-transform" />
                         <span>Start Your Beta Journey</span>
-                        <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+                        <div className="w-2 h-2 lg:w-3 lg:h-3 bg-white rounded-full animate-pulse"></div>
                     </Link>
-                    <p className="text-sm text-gray-400 mt-6">
+                    <p className="text-xs lg:text-sm text-gray-400 mt-4 lg:mt-6">
                         Beta access • Free forever • Your feedback shapes the future
                     </p>
                 </div>
