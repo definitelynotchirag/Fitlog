@@ -152,6 +152,7 @@ export async function* processTextWithLangChainStream(textInput: string, userId:
         maxRetries: 2,
         apiKey: process.env.GROQ_API_KEY,
         streaming: true,
+        
     });
 
     try {
