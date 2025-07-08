@@ -20,15 +20,21 @@ const getRoutineIdByName = async (userId: any, routineName: any) => {
         if (result.length > 0) {
             return result[0].item.routine_id;
         } else {
-            throw new Error("Routine not found");
+            // If routine not found, create it
+            const newRoutine = await prisma.routine.create({
+                data: {
+                    routine_name: routineName,
+                    user_id: userId,
+                },
+            });
+            return newRoutine.routine_id;
         }
     } catch (error) {
         console.error("Error fetching routine ID:", error);
-        throw new Error("Failed to retrieve routine ID");
+        throw new Error("Failed to retrieve or create routine ID");
     }
 };
-
-const getWorkoutIdByName = async (userId: any, workoutName: any, routineId: any) => {
+const getWorkoutIdByName = async (userId: any, workoutName: any, routineId: any, date?: any) => {
     try {
         const workouts = await prisma.workout.findMany({
             where: { routine_id: routineId },
@@ -43,11 +49,20 @@ const getWorkoutIdByName = async (userId: any, workoutName: any, routineId: any)
         if (result.length > 0) {
             return result[0].item.workout_id;
         } else {
-            throw new Error("Workout not found");
+            // If workout not found, create it
+            const newWorkout = await prisma.workout.create({
+                data: {
+                    workout_name: workoutName,
+                    routine_id: routineId,
+                    date: date ? new Date(date) : new Date(),
+                    total_calories_burned: null,
+                },
+            });
+            return newWorkout.workout_id;
         }
     } catch (error) {
         console.error("Error fetching workout ID:", error);
-        throw new Error("Failed to retrieve workout ID");
+        throw new Error("Failed to retrieve or create workout ID");
     }
 };
 
