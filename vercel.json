@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "app/api/handler-stream/route.ts": {
+      "maxDuration": 30
+    }
+  }
+}
